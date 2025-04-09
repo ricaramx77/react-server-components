@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-export default function ClientDemo({ children }) {
+export default function ClientDemo2({ children }) {
   const [count, setCount] = useState(0); // <- this is why it's a client component
 
   console.log('ClientDemo rendered');
