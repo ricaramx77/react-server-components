@@ -1,22 +1,27 @@
+
 import fs from 'node:fs/promises';
 
 import { Suspense } from 'react';
+import ErrorBoundary from './components/ErrorBoundary';
 import UsePromiseDemo from './components/usePromisesDemo';
 
 export default async function Home() {
-  const fetchUsersPromise = new Promise((resolve) =>
+  const fetchUsersPromise = new Promise((resolve, reject) =>
     setTimeout(async () => {
       const data = await fs.readFile('dummy-db.json', 'utf-8');
       const users = JSON.parse(data);
-      resolve(users);
+       resolve(users);
+     // reject(new Error('Error!'));
     }, 2000)
   );
 
   return (
     <main>
-      <Suspense fallback={<p>Loading users...</p>}>
-        <UsePromiseDemo usersPromise={fetchUsersPromise} />
-      </Suspense>
+      <ErrorBoundary fallback={<p>Something went wrong!</p>}>
+        <Suspense fallback={<p>Loading users...</p>}>
+          <UsePromiseDemo usersPromise={fetchUsersPromise} />
+        </Suspense>
+      </ErrorBoundary>
     </main>
   );
 }
